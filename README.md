@@ -139,40 +139,7 @@ if (oauthToken.ExpiresIn <= 0)
 
 ## Contributing
 
-Contributions are welcome! To contribute:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Make your changes
-4. Ensure the build passes with warnings as errors:
-   ```powershell
-   .\build.ps1 -Clean
-   ```
-5. Commit your changes (`git commit -m 'Add your feature'`)
-6. Push to your branch (`git push origin feature/your-feature`)
-7. Open a Pull Request
-
-> [!NOTE]
-> **Bugs** should be reported as [Issues](https://github.com/dend/conch/issues). **Questions** should be posted in [Discussions](https://github.com/dend/conch/discussions).
-
-### Code Style
-
-- Follow existing code conventions in the project
-- Include XML documentation for all public APIs
-- Ensure all builds pass with `-warnaserror` enabled
-
-### AI-Assisted Contributions
-
-> [!WARNING]
-> **AI-assisted contributions are welcome but require full disclosure.**
->
-> If you use AI tools (e.g., GitHub Copilot, ChatGPT, Claude) to generate or modify code, you must:
->
-> 1. **Disclose AI usage** in your pull request description
-> 2. **Provide a detailed, human-written rationale** explaining why each change was made and how you verified its correctness
-> 3. **Review and understand all AI-generated code** before submitting
->
-> Pull requests and issues that appear to be AI-generated without proper disclosure and rationale will be closed, and repeat offenders will be banned from the repository.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute to this project.
 
 ## License
 

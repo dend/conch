@@ -38,7 +38,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$ProjectRoot = $PSScriptRoot
+$ProjectRoot = Split-Path -Parent $PSScriptRoot
 $SolutionPath = Join-Path $ProjectRoot "Den.Dev.Conch\Den.Dev.Conch.sln"
 
 # Ensure UTF-8 output for Unicode symbols
