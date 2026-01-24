@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<PackageProjectUrl>https://github.com/dend/conch</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/dend/conch</RepositoryUrl>
+		<PackageTags>xbox,xbox-live,authentication,oauth,microsoft</PackageTags>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Nullable>enable</Nullable>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<PackageId>$(AssemblyName)</PackageId>
+		<Authors>Den Delimarsky</Authors>
+		<Company>Den Delimarsky</Company>
+		<Product>$(AssemblyName)</Product>
+		<Description>A standalone library for Xbox Live authentication.</Description>
+		<Copyright>2025 by Den Delimarsky</Copyright>
+		<PackageReleaseNotes>Initial release of the Den.Dev.Conch package.</PackageReleaseNotes>
+		<AssemblyName>$(MSBuildProjectName)</AssemblyName>
+		<RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<AssemblyVersion>1.0.0</AssemblyVersion>
+		<FileVersion>1.0.0</FileVersion>
+		<Title>Den.Dev.Conch</Title>
+		<ImplicitUsings>disable</ImplicitUsings>
+	</PropertyGroup>
+</Project>
