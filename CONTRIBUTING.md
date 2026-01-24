@@ -29,13 +29,13 @@ trying to address.
 This project has a fairly strict AI contribution policy, inspired by the awesome work of folks at
 [`ghostty`](https://github.com/ghostty-org/ghostty/blob/main/AI_POLICY.md). I use AI tools myself
 for a lot of the development and they have proven to be extremely valuable. Claude Code, at this
-point, is my personal assistant in quite a bit of development.
+point, is my personal assistant in quite a bit of software engineering.
 
 That being said, I've also seen the sheer volume of drive-by slop that is being created in
 projects that I maintain. This policy is in place to prevent that. It's **not an anti-AI stance**
 but rather a firm position against **unqualified individuals using AI to burden me with
 unnecessary work**. As a human maintaining this project, I want to spend my time on the most
-impactful and interesting problems rather than triaging slop.
+impactful and interesting problems rather than triaging garbage.
 
 > [!WARNING]
 > This policy is non-negotiable for any contributions, big or small.
