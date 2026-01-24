@@ -2,7 +2,17 @@
 
 # Conch
 
-A standalone C# library for Xbox Live authentication.
+A tiny C#-based library to help authenticate against Xbox services.
+
+> [!WARNING]
+> **This library is provided for educational and personal use purposes only.** It comes with no guarantees, implied or otherwise.
+>
+> By using this library, you acknowledge and agree to the following:
+>
+> - You interact with Xbox Live APIs **at your own risk**
+> - Microsoft and Xbox may ban, suspend, or restrict accounts that use unofficial or unsanctioned APIs and projects (such as this library)
+> - I bear **no responsibility** for any account bans, restrictions, suspensions, or other consequences that may result from using this library
+> - You accept **full responsibility** for how you choose to use this library and any actions taken with it
 
 ## About
 
@@ -17,20 +27,6 @@ Conch is an Xbox Live authentication library designed to handle the complexities
 - **XSTS Tokens** - Request Xbox Live Security Token Service (XSTS) tokens
 - **SISU Authentication** - Support for SISU (Sign-In/Sign-Up) authentication flows
 - **Proof-of-Possession (PoP) Signing** - Cryptographic request signing for secure API calls
-
-## Disclaimer
-
-> [!WARNING]
-> **This library is provided for educational and personal purposes only.**
->
-> By using this library, you acknowledge and agree to the following:
->
-> - You interact with Xbox Live APIs **at your own risk**
-> - Microsoft and Xbox may ban, suspend, or restrict accounts that use unofficial or unsanctioned APIs
-> - The library author(s) bear **no responsibility** for any account bans, restrictions, suspensions, or other consequences that may result from using this library
-> - You accept **full responsibility** for how you choose to use this library and any actions taken with it
->
-> **Use responsibly and in accordance with Microsoft's Terms of Service.**
 
 ## Installation
 
