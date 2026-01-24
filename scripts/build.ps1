@@ -81,7 +81,7 @@ function Get-Timestamp {
 }
 
 function Write-Header {
-    $title = "Conch Build System"
+    $title = "Conch Build Script"
     $h = $script:Chars.Horizontal
     $border = "$h" * 50
 

@@ -1,13 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<ItemGroup>
 		<None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+		<None Include="..\..\README.md" Pack="true" PackagePath="" />
+		<None Include="..\..\media\conch.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<PackageProjectUrl>https://github.com/dend/conch</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/dend/conch</RepositoryUrl>
-		<PackageTags>xbox,xbox-live,authentication,oauth,microsoft</PackageTags>
+		<PackageTags>xbox,xbox-live,authentication,oauth</PackageTags>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<Nullable>enable</Nullable>
 		<AnalysisLevel>latest</AnalysisLevel>
@@ -21,6 +23,8 @@
 		<AssemblyName>$(MSBuildProjectName)</AssemblyName>
 		<RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>conch.png</PackageIcon>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<AssemblyVersion>1.0.0</AssemblyVersion>
 		<FileVersion>1.0.0</FileVersion>
