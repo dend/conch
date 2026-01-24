@@ -137,17 +137,6 @@ if (oauthToken.ExpiresIn <= 0)
 }
 ```
 
-## Troubleshooting
-
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| `RequestOAuthToken` returns `null` | Invalid authorization code or expired code | Ensure the code from the redirect URL is used immediately; codes expire quickly |
-| `RequestUserToken` returns `null` | Invalid or expired access token | Refresh the OAuth token using `RefreshOAuthToken` |
-| `RequestDeviceToken` returns `null` | Signature verification failed | Ensure the device is using consistent cryptographic keys across requests |
-| `RequestXstsToken` returns `null` | Invalid user token or relying party | Verify the user token is valid and the relying party URL is correct |
-| SISU authentication fails | Missing or invalid device token | Request a new device token before initiating SISU session |
-| Token expires during use | Tokens have limited lifetime | Store `ExpiresIn` value and refresh tokens proactively |
-
 ## Contributing
 
 Contributions are welcome! To contribute:
@@ -163,11 +152,27 @@ Contributions are welcome! To contribute:
 6. Push to your branch (`git push origin feature/your-feature`)
 7. Open a Pull Request
 
+> [!NOTE]
+> **Bugs** should be reported as [Issues](https://github.com/dend/conch/issues). **Questions** should be posted in [Discussions](https://github.com/dend/conch/discussions).
+
 ### Code Style
 
 - Follow existing code conventions in the project
 - Include XML documentation for all public APIs
 - Ensure all builds pass with `-warnaserror` enabled
+
+### AI-Assisted Contributions
+
+> [!WARNING]
+> **AI-assisted contributions are welcome but require full disclosure.**
+>
+> If you use AI tools (e.g., GitHub Copilot, ChatGPT, Claude) to generate or modify code, you must:
+>
+> 1. **Disclose AI usage** in your pull request description
+> 2. **Provide a detailed, human-written rationale** explaining why each change was made and how you verified its correctness
+> 3. **Review and understand all AI-generated code** before submitting
+>
+> Pull requests and issues that appear to be AI-generated without proper disclosure and rationale will be closed, and repeat offenders will be banned from the repository.
 
 ## License
 
