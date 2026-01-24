@@ -26,6 +26,11 @@ namespace Den.Dev.Conch.Authentication
     /// </summary>
     public class XboxAuthenticationClient
     {
+        private static readonly JsonSerializerOptions JsonOptions = new()
+        {
+            PropertyNameCaseInsensitive = true,
+        };
+
         private readonly ECDCertificatePoPCryptoProvider popCryptoProvider = new();
         private readonly HttpClient client;
         private readonly string codeVerifier;
@@ -98,32 +103,12 @@ namespace Den.Dev.Conch.Authentication
                 { "approval_prompt", "auto" },
             };
 
-            if (scopes != null && scopes.Length > 0)
-            {
-                tokenRequestContent.Add("scope", string.Join(" ", scopes));
-            }
-            else
-            {
-                tokenRequestContent.Add("scope", string.Join(" ", XboxAuthConstants.DEFAULT_AUTH_SCOPES));
-            }
-
-            tokenRequestContent.Add("redirect_uri", redirectUrl);
-            tokenRequestContent.Add("client_id", clientId);
-            if (!string.IsNullOrEmpty(clientSecret))
-            {
-                tokenRequestContent.Add("client_secret", clientSecret);
-            }
-
             if (useCodeVerifier)
             {
                 tokenRequestContent.Add("code_verifier", this.codeVerifier);
             }
 
-            var response = await this.client.PostAsync(XboxEndpoints.XboxLiveToken, new FormUrlEncodedContent(tokenRequestContent), cancellationToken);
-
-            return response.IsSuccessStatusCode
-                ? JsonSerializer.Deserialize<OAuthToken>(await response.Content.ReadAsStringAsync(cancellationToken))
-                : null;
+            return await this.ExecuteOAuthTokenRequestAsync(tokenRequestContent, clientId, redirectUrl, clientSecret, scopes, cancellationToken);
         }
 
         /// <summary>
@@ -138,11 +123,26 @@ namespace Den.Dev.Conch.Authentication
         /// <returns>If successful, returns an instance of <see cref="OAuthToken"/> representing the OAuth token used for authentication. Otherwise, returns null.</returns>
         public async Task<OAuthToken?> RefreshOAuthToken(string clientId, string refreshToken, string redirectUrl, string clientSecret = "", string[]? scopes = null, CancellationToken cancellationToken = default)
         {
-            Dictionary<string, string> tokenRequestContent = new();
+            Dictionary<string, string> tokenRequestContent = new()
+            {
+                { "grant_type", "refresh_token" },
+                { "refresh_token", refreshToken },
+            };
 
-            tokenRequestContent.Add("grant_type", "refresh_token");
-            tokenRequestContent.Add("refresh_token", refreshToken);
+            return await this.ExecuteOAuthTokenRequestAsync(tokenRequestContent, clientId, redirectUrl, clientSecret, scopes, cancellationToken);
+        }
 
+        /// <summary>
+        /// Executes an OAuth token request with the provided parameters.
+        /// </summary>
+        private async Task<OAuthToken?> ExecuteOAuthTokenRequestAsync(
+            Dictionary<string, string> tokenRequestContent,
+            string clientId,
+            string redirectUrl,
+            string clientSecret,
+            string[]? scopes,
+            CancellationToken cancellationToken)
+        {
             if (scopes != null && scopes.Length > 0)
             {
                 tokenRequestContent.Add("scope", string.Join(" ", scopes));
@@ -154,6 +154,7 @@ namespace Den.Dev.Conch.Authentication
 
             tokenRequestContent.Add("redirect_uri", redirectUrl);
             tokenRequestContent.Add("client_id", clientId);
+
             if (!string.IsNullOrEmpty(clientSecret))
             {
                 tokenRequestContent.Add("client_secret", clientSecret);
@@ -162,7 +163,7 @@ namespace Den.Dev.Conch.Authentication
             var response = await this.client.PostAsync(XboxEndpoints.XboxLiveToken, new FormUrlEncodedContent(tokenRequestContent), cancellationToken);
 
             return response.IsSuccessStatusCode
-                ? JsonSerializer.Deserialize<OAuthToken>(await response.Content.ReadAsStringAsync(cancellationToken))
+                ? JsonSerializer.Deserialize<OAuthToken>(await response.Content.ReadAsStringAsync(cancellationToken), JsonOptions)
                 : null;
         }
 
@@ -199,7 +200,7 @@ namespace Den.Dev.Conch.Authentication
             var responseData = await response.Content.ReadAsStringAsync(cancellationToken);
 
             return response.IsSuccessStatusCode
-                ? JsonSerializer.Deserialize<XboxTicket>(responseData)
+                ? JsonSerializer.Deserialize<XboxTicket>(responseData, JsonOptions)
                 : null;
         }
 
@@ -249,7 +250,7 @@ namespace Den.Dev.Conch.Authentication
             var responseData = await response.Content.ReadAsStringAsync(cancellationToken);
 
             return response.IsSuccessStatusCode
-                ? JsonSerializer.Deserialize<XboxTicket>(responseData)
+                ? JsonSerializer.Deserialize<XboxTicket>(responseData, JsonOptions)
                 : null;
         }
 
@@ -271,7 +272,7 @@ namespace Den.Dev.Conch.Authentication
         /// <param name="version">OS version on the device. Default is 10.0.22000 for Windows 11.</param>
         /// <param name="authMethod">Authentication method used. Default is ProofOfPossession.</param>
         /// <param name="cancellationToken">Cancellation token for the operation.</param>
-        /// <returns>If successful, returns an instance of <see cref="XboxTicket"/> that contains the device token. Otherwise, returns null."</returns>
+        /// <returns>If successful, returns an instance of <see cref="XboxTicket"/> that contains the device token. Otherwise, returns null.</returns>
         public async Task<XboxTicket?> RequestDeviceToken(string deviceType = "Win32", string version = "10.0.22000", string authMethod = "ProofOfPossession", CancellationToken cancellationToken = default)
         {
             XboxTicketRequest ticketData = new()
@@ -308,7 +309,7 @@ namespace Den.Dev.Conch.Authentication
             var responseData = await response.Content.ReadAsStringAsync(cancellationToken);
 
             return response.IsSuccessStatusCode
-                ? JsonSerializer.Deserialize<XboxTicket>(responseData)
+                ? JsonSerializer.Deserialize<XboxTicket>(responseData, JsonOptions)
                 : null;
         }
 
@@ -366,7 +367,7 @@ namespace Den.Dev.Conch.Authentication
 
             if (response.IsSuccessStatusCode)
             {
-                authResponse = JsonSerializer.Deserialize<SISUAuthenticationResponse>(responseData);
+                authResponse = JsonSerializer.Deserialize<SISUAuthenticationResponse>(responseData, JsonOptions);
                 IEnumerable<string>? headerValues;
                 if (response.Headers.TryGetValues("X-SessionId", out headerValues))
                 {
@@ -429,7 +430,7 @@ namespace Den.Dev.Conch.Authentication
             var responseData = await response.Content.ReadAsStringAsync(cancellationToken);
 
             return response.IsSuccessStatusCode
-                ? (JsonSerializer.Deserialize<SISUAuthorizationResponse>(responseData) ?? new SISUAuthorizationResponse())
+                ? (JsonSerializer.Deserialize<SISUAuthorizationResponse>(responseData, JsonOptions) ?? new SISUAuthorizationResponse())
                     with { ErrorCode = response.StatusCode, ErrorMessage = responseData }
                 : new SISUAuthorizationResponse { ErrorCode = response.StatusCode, ErrorMessage = responseData };
         }

@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 namespace Den.Dev.Conch.Models.Security
 {
     /// <summary>
-    /// Gets or sets the SISU authentication response.
+    /// Container class representing a SISU authentication response, including the OAuth redirect URL and session information.
     /// </summary>
     public class SISUAuthenticationResponse
     {

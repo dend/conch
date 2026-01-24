@@ -7,7 +7,7 @@
 namespace Den.Dev.Conch.Models.Security
 {
     /// <summary>
-    /// Container class for MSA request parameters. Currently unused.
+    /// Container class for MSA request parameters returned in SISU authentication responses.
     /// </summary>
     public class MSARequestParameters
     {

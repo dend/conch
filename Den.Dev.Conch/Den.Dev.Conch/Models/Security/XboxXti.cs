@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 namespace Den.Dev.Conch.Models.Security
 {
     /// <summary>
-    /// Container class encapsulating the Xbox device information.
+    /// Container class encapsulating Xbox title information claims.
     /// </summary>
     public class XboxXti
     {
