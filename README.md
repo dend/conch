@@ -1,6 +1,8 @@
-# Conch
-
-A standalone C# library for Xbox Live authentication.
+<div align="center">
+  <img src="media/conch.png" alt="Conch" width="256" />
+  <h1>Conch</h1>
+  <p>A standalone C# library for Xbox Live authentication.</p>
+</div>
 
 ## About
 
