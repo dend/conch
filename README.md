@@ -1,4 +1,4 @@
-![Conch](media/conch.png)
+![Conch](https://raw.githubusercontent.com/dend/conch/main/media/conch.png)
 
 # Conch
 
