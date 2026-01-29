@@ -1,7 +1,7 @@
 {
-  "name": "@dendev/conch",
+  "name": "@dendotdev/conch",
   "version": "1.0.0",
-  "description": "Xbox Live authentication library for Node.js - TypeScript implementation",
+  "description": "A basic unofficial Xbox Live authentication library for Node.js.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -27,10 +27,7 @@
     "xbox",
     "xbox-live",
     "authentication",
-    "oauth",
-    "microsoft",
-    "xsts",
-    "sisu"
+    "oauth"
   ],
   "author": "",
   "license": "MIT",
