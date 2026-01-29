@@ -1,10 +1,10 @@
-name: Publish to NuGet
+name: Publish .NET to NuGet
 
 on:
   push:
     tags:
-      - '[0-9]+.[0-9]+.[0-9]+'
-      - '[0-9]+.[0-9]+.[0-9]+-*'
+      - 'dotnet-[0-9]+.[0-9]+.[0-9]+'
+      - 'dotnet-[0-9]+.[0-9]+.[0-9]+-*'
 
 jobs:
   publish:
@@ -21,16 +21,16 @@ jobs:
 
       - name: Extract version from tag
         id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        run: echo "VERSION=${GITHUB_REF#refs/tags/dotnet-}" >> $GITHUB_OUTPUT
 
       - name: Restore dependencies
-        run: dotnet restore Den.Dev.Conch/Den.Dev.Conch.sln
+        run: dotnet restore src/dotnet/Den.Dev.Conch/Den.Dev.Conch.sln
 
       - name: Build
-        run: dotnet build Den.Dev.Conch/Den.Dev.Conch.sln -c Release --no-restore -warnaserror
+        run: dotnet build src/dotnet/Den.Dev.Conch/Den.Dev.Conch.sln -c Release --no-restore -warnaserror
 
       - name: Create NuGet package
-        run: dotnet pack Den.Dev.Conch/Den.Dev.Conch.sln -c Release --no-build -p:PackageVersion=${{ steps.version.outputs.VERSION }} -o ./artifacts
+        run: dotnet pack src/dotnet/Den.Dev.Conch/Den.Dev.Conch.sln -c Release --no-build -p:PackageVersion=${{ steps.version.outputs.VERSION }} -o ./artifacts
 
       - name: Publish to NuGet
         run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
