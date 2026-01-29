@@ -1,6 +1,18 @@
-# Conch - Xbox Live Authentication Library for Node.js
+![Conch](https://raw.githubusercontent.com/dend/conch/main/media/conch.png)
 
-A TypeScript library for Xbox Live authentication, supporting OAuth 2.0, user tokens, device tokens with Proof-of-Possession (PoP), XSTS tokens, and SISU authentication flows.
+# Conch
+
+A library to help authenticate against Xbox services. Available for both **.NET** and **Node.js**.
+
+> [!WARNING]
+> **This library is provided for educational and personal use purposes only.** It comes with no guarantees, implied or otherwise.
+>
+> By using this library, you acknowledge and agree to the following:
+>
+> - You interact with Xbox Live APIs **at your own risk**
+> - Microsoft and Xbox may ban, suspend, or restrict accounts that use unofficial or unsanctioned APIs and projects (such as this library)
+> - I bear **no responsibility** for any account bans, restrictions, suspensions, or other consequences that may result from using this library
+> - You accept **full responsibility** for how you choose to use this library and any actions taken with it
 
 ## Features
 
@@ -11,7 +23,6 @@ A TypeScript library for Xbox Live authentication, supporting OAuth 2.0, user to
   - Standard OAuth + User Token + XSTS
   - Device Token with Proof-of-Possession (ECDSA P-256)
   - SISU (Sign-In/Sign-Up) for mobile/console apps
-- **Modern Node.js** - Uses Web Crypto API, native Base64URL encoding
 
 ## Requirements
 
@@ -176,111 +187,6 @@ new XboxAuthenticationClient(options?: {
 | `requestSISUSession(appId, titleId, deviceToken, offers, redirectUri, tokenType?, sandbox?, signal?)` | Starts SISU authentication |
 | `requestSISUTokens(deviceToken, accessToken, appId, sessionId?, sandbox?, siteName?, useModernGamertag?, signal?)` | Completes SISU and gets all tokens |
 
-### Types
-
-#### OAuthToken
-
-```typescript
-interface OAuthToken {
-  token_type?: string;
-  expires_in?: number;
-  scope?: string;
-  access_token?: string;
-  refresh_token?: string;
-  user_id?: string;
-}
-```
-
-#### XboxTicket
-
-```typescript
-interface XboxTicket {
-  IssueInstant?: string;
-  NotAfter?: string;
-  Token?: string;
-  DisplayClaims?: XboxDisplayClaims;
-}
-```
-
-#### XboxDisplayClaims
-
-```typescript
-interface XboxDisplayClaims {
-  xui?: XboxXui[];  // User identity claims
-  xdi?: XboxXdi;    // Device identity claims
-  xti?: XboxXti;    // Title identity claims
-}
-
-interface XboxXui {
-  uhs?: string;   // User hash
-  xid?: string;   // Xbox User ID
-  gtg?: string;   // Gamertag
-  agg?: string;   // Age group
-  prv?: string;   // Privileges
-  mgt?: string;   // Modern gamertag
-  umg?: string;   // Unique modern gamertag
-}
-```
-
-#### SISUAuthorizationResponse
-
-```typescript
-interface SISUAuthorizationResponse {
-  DeviceToken?: string;
-  TitleToken?: XboxTicket;
-  UserToken?: XboxTicket;
-  AuthorizationToken?: XboxTicket;
-  WebPage?: string;
-  Sandbox?: string;
-  UseModernGamertag?: boolean;
-  Flow?: string;
-  ErrorCode?: number;      // Present on failure
-  ErrorMessage?: string;   // Present on failure
-}
-```
-
-### Utility Functions
-
-```typescript
-import {
-  hasAccessToken,     // Check if OAuthToken has access_token
-  hasRefreshToken,    // Check if OAuthToken has refresh_token
-  hasToken,           // Check if XboxTicket has Token
-  getUserHash,        // Extract user hash from XboxTicket
-  isSISUAuthorizationSuccess,  // Check if SISU succeeded
-  isSISUAuthorizationError,    // Check if SISU failed
-} from '@dendotdev/conch';
-```
-
-## Authentication Flow Overview
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    STANDARD FLOW                                 │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌─────────┐      │
-│  │  OAuth  │───>│  User   │───>│  XSTS   │───>│  Xbox   │      │
-│  │  Token  │    │  Token  │    │  Token  │    │  APIs   │      │
-│  └─────────┘    └─────────┘    └─────────┘    └─────────┘      │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────┐
-│                    SISU FLOW                                     │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌─────────┐      │
-│  │ Device  │───>│  SISU   │───>│  OAuth  │───>│  SISU   │      │
-│  │ Token   │    │ Session │    │ Consent │    │ Tokens  │      │
-│  └─────────┘    └─────────┘    └─────────┘    └─────────┘      │
-│      │                                              │            │
-│      └──────────────────────────────────────────────┘            │
-│                    (with PoP signature)                          │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
-```
-
 ## Endpoints Used
 
 | Endpoint | Purpose |
@@ -292,35 +198,6 @@ import {
 | `xsts.auth.xboxlive.com/xsts/authorize` | XSTS authorization |
 | `sisu.xboxlive.com/authenticate` | SISU session start |
 | `sisu.xboxlive.com/authorize` | SISU token acquisition |
-
-## Cryptography
-
-This library uses the following cryptographic primitives (all from Node.js built-in `crypto` module):
-
-- **ECDSA P-256** - For Proof-of-Possession request signing
-- **SHA-256** - For PKCE code challenge generation
-- **Web Crypto API** - For key generation and signing
-
-No external cryptographic dependencies are required.
-
-## Error Handling
-
-The library uses a nullable return pattern consistent with the original C# implementation:
-
-- Methods return `null` on HTTP failure
-- SISU authorization returns an object with `ErrorCode` and `ErrorMessage` on failure
-
-```typescript
-const userTicket = await client.requestUserToken(accessToken);
-if (userTicket === null) {
-  // Handle error - request failed
-}
-
-const sisuTokens = await client.requestSISUTokens(/* ... */);
-if (sisuTokens.ErrorCode !== undefined) {
-  console.error(`Error ${sisuTokens.ErrorCode}: ${sisuTokens.ErrorMessage}`);
-}
-```
 
 ## License
 
