@@ -1,5 +1,5 @@
 {
-  "name": "conch",
+  "name": "@dendev/conch",
   "version": "1.0.0",
   "description": "Xbox Live authentication library for Node.js - TypeScript implementation",
   "main": "dist/index.js",

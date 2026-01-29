@@ -20,7 +20,7 @@ A TypeScript library for Xbox Live authentication, supporting OAuth 2.0, user to
 ## Installation
 
 ```bash
-npm install conch
+npm install @dendev/conch
 ```
 
 ## Quick Start
@@ -30,7 +30,7 @@ npm install conch
 The most common flow for web applications:
 
 ```typescript
-import { XboxAuthenticationClient } from 'conch';
+import { XboxAuthenticationClient } from '@dendev/conch';
 
 const client = new XboxAuthenticationClient();
 
@@ -81,7 +81,7 @@ const authHeader = client.getXboxLiveV3Token(userHash!, xstsTicket.Token);
 For mobile apps or scenarios requiring device tokens:
 
 ```typescript
-import { XboxAuthenticationClient } from 'conch';
+import { XboxAuthenticationClient } from '@dendev/conch';
 
 const client = new XboxAuthenticationClient();
 
@@ -249,7 +249,7 @@ import {
   getUserHash,        // Extract user hash from XboxTicket
   isSISUAuthorizationSuccess,  // Check if SISU succeeded
   isSISUAuthorizationError,    // Check if SISU failed
-} from 'conch';
+} from '@dendev/conch';
 ```
 
 ## Authentication Flow Overview
