@@ -262,6 +262,17 @@ namespace Den.Dev.Conch.Authentication
         /// <returns>The assembled Xbox Live 3.0 token string.</returns>
         public string GetXboxLiveV3Token(string userHash, string userToken)
         {
+            return FormatXboxLiveV3Token(userHash, userToken);
+        }
+
+        /// <summary>
+        /// Formats a user hash and token into a valid Xbox Live 3.0 authorization token string.
+        /// </summary>
+        /// <param name="userHash">The user hash from the XSTS token display claims.</param>
+        /// <param name="userToken">The XSTS token value.</param>
+        /// <returns>The formatted XBL3.0 token string.</returns>
+        public static string FormatXboxLiveV3Token(string userHash, string userToken)
+        {
             return $"XBL3.0 x={userHash};{userToken}";
         }
 
