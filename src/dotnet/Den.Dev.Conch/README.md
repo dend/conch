@@ -1,3 +1,5 @@
+![Conch](conch.png)
+
 # Den.Dev.Conch
 
 An unofficial .NET library for Xbox Live authentication, not affiliated with or endorsed by Microsoft. Handles the complexities of Microsoft's OAuth, XSTS, and SISU authentication flows.
